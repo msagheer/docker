@@ -30,6 +30,7 @@ func (e *remoteError) Error() string {
 
 // NewClient creates a new plugin client (http).
 func NewClient(addr string, tlsConfig tlsconfig.Options) (*Client, error) {
+	logrus.Infof("NewClient function called - docker.pkg.plugins.client.go")
 	tr := &http.Transport{}
 
 	c, err := tlsconfig.Client(tlsConfig)
@@ -52,6 +53,7 @@ type Client struct {
 // Call calls the specified method with the specified arguments for the plugin.
 // It will retry for 30 seconds if a failure occurs when calling.
 func (c *Client) Call(serviceMethod string, args interface{}, ret interface{}) error {
+	logrus.Infof("Call function called - docker")
 	return c.callWithRetry(serviceMethod, args, ret, true)
 }
 

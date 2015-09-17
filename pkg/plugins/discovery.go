@@ -9,6 +9,8 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+
+	"github.com/Sirupsen/logrus"
 )
 
 var (
@@ -35,6 +37,7 @@ func newLocalRegistry() LocalRegistry {
 
 // Plugin returns the plugin registered with the given name (or returns an error).
 func (l *LocalRegistry) Plugin(name string) (*Plugin, error) {
+	logrus.Infof("Plugin function called - docker.pkg.plugins.discovery.go")
 	socketpaths := pluginPaths(socketsPath, name, ".sock")
 
 	for _, p := range socketpaths {

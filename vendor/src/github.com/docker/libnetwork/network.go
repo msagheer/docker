@@ -271,6 +271,7 @@ func (n *network) deleteNetwork() error {
 }
 
 func (n *network) addEndpoint(ep *endpoint) error {
+	log.Infof("addEndpoint function called - libnetwork/network.go")
 	var err error
 	n.Lock()
 	n.endpoints[ep.id] = ep
@@ -295,6 +296,7 @@ func (n *network) addEndpoint(ep *endpoint) error {
 }
 
 func (n *network) CreateEndpoint(name string, options ...EndpointOption) (Endpoint, error) {
+	log.Infof("CreateEndpoint function called - libnetwork/network.go")
 	var err error
 	if !config.IsValidName(name) {
 		return nil, ErrInvalidName(name)

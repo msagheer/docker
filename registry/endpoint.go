@@ -44,6 +44,7 @@ func scanForAPIVersion(address string) (string, APIVersion) {
 
 // NewEndpoint parses the given address to return a registry endpoint.
 func NewEndpoint(index *IndexInfo, metaHeaders http.Header) (*Endpoint, error) {
+	logrus.Infof("NewEndpoint function called - docker/registry/endpoint.go")
 	tlsConfig, err := newTLSConfig(index.Name, index.Secure)
 	if err != nil {
 		return nil, err
@@ -87,6 +88,7 @@ func validateEndpoint(endpoint *Endpoint) error {
 }
 
 func newEndpoint(address string, tlsConfig *tls.Config, metaHeaders http.Header) (*Endpoint, error) {
+	logrus.Infof("newEndpoint function called - docker/registry/endpoint.go")
 	var (
 		endpoint       = new(Endpoint)
 		trimmedAddress string
@@ -113,6 +115,7 @@ func newEndpoint(address string, tlsConfig *tls.Config, metaHeaders http.Header)
 
 // GetEndpoint returns a new endpoint with the specified headers
 func (repoInfo *RepositoryInfo) GetEndpoint(metaHeaders http.Header) (*Endpoint, error) {
+	logrus.Infof("GetEndpoint function called - docker/registry/endpoint.go")
 	return NewEndpoint(repoInfo.Index, metaHeaders)
 }
 

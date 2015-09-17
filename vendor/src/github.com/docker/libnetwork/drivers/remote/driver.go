@@ -21,12 +21,14 @@ type maybeError interface {
 }
 
 func newDriver(name string, client *plugins.Client) driverapi.Driver {
+	//log.Infof("newDriver function called - proxy")
 	return &driver{networkType: name, endpoint: client}
 }
 
 // Init makes sure a remote driver is registered when a network driver
 // plugin is activated.
 func Init(dc driverapi.DriverCallback) error {
+	log.Infof("Init function called to register driver - proxy")
 	plugins.Handle(driverapi.NetworkPluginEndpointType, func(name string, client *plugins.Client) {
 		c := driverapi.Capability{
 			Scope: driverapi.GlobalScope,
@@ -42,10 +44,12 @@ func Init(dc driverapi.DriverCallback) error {
 // to be supplied to the remote process out-of-band (e.g., as command
 // line arguments).
 func (d *driver) Config(option map[string]interface{}) error {
+	log.Infof("Config function called - proxy")
 	return &driverapi.ErrNotImplemented{}
 }
 
 func (d *driver) call(methodName string, arg interface{}, retVal maybeError) error {
+	log.Infof("call function called - proxy")
 	method := driverapi.NetworkPluginEndpointType + "." + methodName
 	err := d.endpoint.Call(method, arg, retVal)
 	if err != nil {
@@ -58,6 +62,7 @@ func (d *driver) call(methodName string, arg interface{}, retVal maybeError) err
 }
 
 func (d *driver) CreateNetwork(id types.UUID, options map[string]interface{}) error {
+	log.Infof("CreateNetwork request sent from proxy")
 	create := &api.CreateNetworkRequest{
 		NetworkID: string(id),
 		Options:   options,
@@ -66,11 +71,13 @@ func (d *driver) CreateNetwork(id types.UUID, options map[string]interface{}) er
 }
 
 func (d *driver) DeleteNetwork(nid types.UUID) error {
+	log.Infof("DeleteNetwork request sent from proxy")
 	delete := &api.DeleteNetworkRequest{NetworkID: string(nid)}
 	return d.call("DeleteNetwork", delete, &api.DeleteNetworkResponse{})
 }
 
 func (d *driver) CreateEndpoint(nid, eid types.UUID, epInfo driverapi.EndpointInfo, epOptions map[string]interface{}) error {
+	logrus.Infof("CreateEndpoint function called - libnetwork/drivers/remote/driver.go")
 	if epInfo == nil {
 		return fmt.Errorf("must not be called with nil EndpointInfo")
 	}

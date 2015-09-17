@@ -77,6 +77,7 @@ func newLocalPlugin(name, addr string) *Plugin {
 }
 
 func (p *Plugin) activate() error {
+	logrus.Infof("activate function called - docker.pkg.plugins.plugins.go")
 	p.activateOnce.Do(func() {
 		p.activatErr = p.activateWithLock()
 	})
@@ -84,6 +85,7 @@ func (p *Plugin) activate() error {
 }
 
 func (p *Plugin) activateWithLock() error {
+	logrus.Infof("activateWithLock function called - docker.pkg.plugins.plugins.go")
 	c, err := NewClient(p.Addr, p.TLSConfig)
 	if err != nil {
 		return err
@@ -109,6 +111,7 @@ func (p *Plugin) activateWithLock() error {
 }
 
 func load(name string) (*Plugin, error) {
+	logrus.Infof("load function called - docker.pkg.plugins.plugins.go")
 	storage.Lock()
 	registry := newLocalRegistry()
 	pl, err := registry.Plugin(name)
@@ -133,6 +136,7 @@ func load(name string) (*Plugin, error) {
 }
 
 func get(name string) (*Plugin, error) {
+	logrus.Infof("get function called - docker.pkg.plugins.plugins.go")
 	storage.Lock()
 	pl, ok := storage.plugins[name]
 	storage.Unlock()
@@ -144,6 +148,7 @@ func get(name string) (*Plugin, error) {
 
 // Get returns the plugin given the specified name and requested implementation.
 func Get(name, imp string) (*Plugin, error) {
+	logrus.Infof("Get function called - docker.pkg.plugins.plugins.go")
 	pl, err := get(name)
 	if err != nil {
 		return nil, err
