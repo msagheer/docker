@@ -21,7 +21,7 @@ type maybeError interface {
 }
 
 func newDriver(name string, client *plugins.Client) driverapi.Driver {
-	//log.Infof("newDriver function called - proxy")
+	log.Infof("newDriver function called - proxy")
 	return &driver{networkType: name, endpoint: client}
 }
 
@@ -77,7 +77,7 @@ func (d *driver) DeleteNetwork(nid types.UUID) error {
 }
 
 func (d *driver) CreateEndpoint(nid, eid types.UUID, epInfo driverapi.EndpointInfo, epOptions map[string]interface{}) error {
-	logrus.Infof("CreateEndpoint function called - libnetwork/drivers/remote/driver.go")
+	log.Infof("CreateEndpoint function called - libnetwork/drivers/remote/driver.go")
 	if epInfo == nil {
 		return fmt.Errorf("must not be called with nil EndpointInfo")
 	}
